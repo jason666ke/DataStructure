@@ -1,0 +1,8 @@
+# ninja log v5
+1	72	7092157665957029	CMakeFiles/untitled.dir/main.c.obj	17d5f2122c746dd8
+1	77	7092158813833765	CMakeFiles/untitled.dir/LinkedList/Linkedlist.c.obj	8e1d3403a3ef3df9
+77	192	7092158814931477	untitled.exe	9bd1e09c44753515
+0	109	7092201367618914	build.ninja	6eb022ceb9453626
+3	83	7092201463795451	CMakeFiles/untitled.dir/main.c.obj	54a23c13615c1476
+9	93	7092201463951840	CMakeFiles/untitled.dir/LinkedList/Linkedlist.c.obj	5c5cf5b0e2f7cb63
+93	209	7092201465049872	untitled.exe	9bd1e09c44753515
