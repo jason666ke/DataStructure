@@ -40,6 +40,24 @@ void insertNode(Linklist head, int value) {
     head->next = newNode;
 }
 
+
+/**
+ * 计算链表长度
+ * @param head
+ * @return
+ */
+int getLinklistLength(Linklist head) {
+    int length = 0;
+    LNode *currentNode = head->next;
+
+    while (currentNode != NULL) {
+        length++;
+        currentNode = currentNode->next;
+    }
+
+    return length;
+}
+
 /**
  * 头插法插入结点
  * @param head
@@ -122,6 +140,33 @@ void ascendingOrder(Linklist head) {
 }
 
 /**
+ * 用一个函数实现的链表原地升序
+ * @param head
+ */
+void ascendingOrder2(Linklist head) {
+    printf("升序排列链表\n");
+    LNode * pre;
+    LNode * p;
+    LNode * curNode = head->next;
+    head->next = NULL;
+    while (curNode != NULL) {
+        pre = head;
+        p = pre->next;
+        LNode * nextNode = curNode->next;
+        curNode->next = NULL;
+        // 找到第一个data大于curNode的结点
+        // 用p记录该位置，pre和p之间就是当前结点需要插入的位置
+        while (p != NULL && p->data <= curNode->data) {
+            pre = p;
+            p = p->next;
+        }
+        curNode->next = p;
+        pre->next = curNode;
+        curNode = nextNode;
+    }
+}
+
+/**
  * 删除介于Min和max之间的所有结点
  * @param head
  * @param min
@@ -143,4 +188,60 @@ void deleteFromA2B(Linklist head, int min, int max) {
     }
 }
 
+
+/**
+ * 将原链表划分成奇链表和偶链表
+ * @param origin
+ * @param odd
+ * @param even
+ */
+void divideOddAndEven (Linklist origin, Linklist odd, Linklist even) {
+    printf("将原链表划分成奇链表和偶链表\n");
+    LNode *p = origin->next;
+    LNode *tailOdd = odd;
+    LNode *tailEven = even;
+    int oddFlag = 1;
+    while (p != NULL) {
+        LNode *nextNode = p->next;
+        p->next = NULL;
+        if (oddFlag) {
+            tailOdd->next = p;
+            tailOdd = tailOdd->next;
+            oddFlag = 0;
+        } else {
+            tailEven->next = p;
+            tailEven = tailEven->next;
+            oddFlag = 1;
+        }
+        p = nextNode;
+    }
+    tailOdd->next = NULL;
+    tailEven->next = NULL;
+    printf("奇链表为: ");
+    printLinklist(odd);
+    printf("偶链表为: ");
+    printLinklist(even);
+}
+
+
+/**
+ * 删除链表中的重复元素
+ * @param head
+ */
+void deleteSameElement(Linklist head) {
+    printf("删除链表中的重复元素\n");
+    LNode *p = head->next;
+    while (p != NULL) {
+        if (p->next == NULL) break;
+        else {
+            LNode *nextNode = p->next;
+            if (nextNode->data == p->data) {
+                p->next = nextNode->next;
+                free(nextNode);
+            } else {
+                p = p->next;
+            }
+        }
+    }
+}
 

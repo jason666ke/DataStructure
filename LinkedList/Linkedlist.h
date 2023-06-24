@@ -12,8 +12,12 @@ void printLinklist(Linklist head);
 void reverseLinklist(Linklist head);
 void headInsert(Linklist head, LNode *p);
 void ascendingOrder(Linklist head);
+void ascendingOrder2(Linklist head);
 LNode *findFirstLargePreNode(Linklist head, LNode *p);
 void deleteFromA2B(Linklist head, int min, int max);
+void divideOddAndEven (Linklist origin, Linklist odd, Linklist even);
+void deleteSameElement(Linklist head);
+
 #ifndef UNTITLED_LINKEDLIST_H
 #define UNTITLED_LINKEDLIST_H
 
