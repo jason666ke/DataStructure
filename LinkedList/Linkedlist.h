@@ -17,6 +17,9 @@ LNode *findFirstLargePreNode(Linklist head, LNode *p);
 void deleteFromA2B(Linklist head, int min, int max);
 void divideOddAndEven (Linklist origin, Linklist odd, Linklist even);
 void deleteSameElement(Linklist head);
+int isSubsequence(Linklist A, Linklist B);
+int getLastKthNode(Linklist head, int k);
+LNode *findCommonSuffixStart(Linklist A, Linklist B);
 
 #ifndef UNTITLED_LINKEDLIST_H
 #define UNTITLED_LINKEDLIST_H

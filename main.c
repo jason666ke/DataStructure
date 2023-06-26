@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <malloc.h>
 #include "LinkedList/Linkedlist.h"
+#include "LinkedList/DLinklist.h"
+
 int main() {
     // 初始化链表
     Linklist myList = initLinklist();
@@ -66,6 +68,62 @@ int main() {
     printLinklist(repeatList);
     deleteSameElement(repeatList);
     printLinklist(repeatList);
+    printf("\n");
+
+
+    // 判断A是否是B的子序列
+    Linklist listA = initLinklist();
+    insertNode(listA, 1);
+    insertNode(listA, 1);
+    insertNode(listA, 1);
+    insertNode(listA, 1);
+    insertNode(listA, 2);
+    insertNode(listA, 3);
+    Linklist listB = initLinklist();
+    insertNode(listB, 3);
+    insertNode(listB, 1);
+    insertNode(listB, 1);
+    insertNode(listB, 1);
+    insertNode(listB, 2);
+    int isSub = isSubsequence(listA, listB);
+    printf("B是A的子序列: %d\n", isSub);
+
+    // 循环双链表是否对称
+    DLinklist dLinklist = initDLinklist();
+    insertDNode(dLinklist, 1, 1);
+    insertDNode(dLinklist, 2, 1);
+    insertDNode(dLinklist, 3, 1);
+    int isSym = isSymmetric(dLinklist);
+    printDLinklist(dLinklist);
+    printf("该链表是对称的: %d\n", isSym);
+
+    // 查找倒数第k个结点
+    Linklist linklist = initLinklist();
+    insertNode(linklist, 1);
+    insertNode(linklist, 2);
+    insertNode(linklist, 3);
+    insertNode(linklist, 4);
+    getLastKthNode(linklist, 2);
+
+    // 找到公共后缀首节点
+    printf("\n查找公共后缀\n");
+    Linklist linklist1 = initLinklist();
+    insertNode(linklist1, 1);
+    insertNode(linklist1, 2);
+    insertNode(linklist1, 3);
+    insertNode(linklist1, 4);
+    Linklist linklist2 = initLinklist();
+    insertNode(linklist2, 1);
+    insertNode(linklist2, 2);
+    insertNode(linklist2, 2);
+    insertNode(linklist2, 2);
+
+    LNode *commonSuffixStart = findCommonSuffixStart(linklist1, linklist2);
+    printf("list1 和 list2 的公共后缀为: ");
+    while (commonSuffixStart) {
+        printf("%d", commonSuffixStart->data);
+        commonSuffixStart = commonSuffixStart->next;
+    }
     printf("\n");
     return 0;
 }

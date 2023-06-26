@@ -245,3 +245,172 @@ void deleteSameElement(Linklist head) {
     }
 }
 
+
+/**
+ * 判断B是否为A的子序列
+ * @param A
+ * @param B
+ * @return
+ */
+int isSubsequence(Linklist A, Linklist B) {
+    LNode *curNode = A->next;
+    LNode *pA, *pB;
+    while (curNode) {
+        pA = curNode;
+        pB = B->next;
+        while (pA && pB && pA->data == pB->data) {
+            pA = pA->next;
+            pB = pB->next;
+        }
+        if (pB == NULL) return 1;
+        else curNode = curNode->next;
+    }
+    return 0;
+}
+
+/**
+ * 将循环单链表L2链接到循环单链表L1之后
+ * @param L1 循环单链表L1
+ * @param L2 循环单链表L2
+ */
+void connectTwoLinklist(Linklist L1, Linklist L2) {
+    LNode *p1 = L1->next;
+    LNode *p2 = L2->next;
+    while (p1->next != L1) p1 = p1->next;
+    p1->next = p2;
+    while (p2->next != L2) p2 = p2->next;
+    p2->next = L1;
+    free(L2);
+}
+
+/**
+ * 反复找出单链表中结点值最小的结点并输出
+ * 然后删除该结点，直到单链表为空
+ * 释放头节点
+ * @param L 带头节点的循环单链表
+ */
+void deletePrintMin(Linklist L) {
+    LNode *preMin = L;
+    LNode *min = preMin->next;
+    LNode *pre = L;
+    LNode *p = pre->next;
+    while (L->next != L) {
+        // 更新最小值结点
+        preMin = L;
+        min = preMin->next;
+        // 更新指针
+        pre = L;
+        p = pre->next;
+        // 遍历整个链表，找到最小值所在结点
+        while (p->next != L) {
+            if (p->data < min->data) {
+                preMin = pre;
+                min = p;
+            }
+            pre = p;
+            p = p->next;
+        }
+        // 打印输出最小值
+        printf("最小值为 %d", min->data);
+        // 删除最小值结点
+        preMin->next = min->next;
+        free(min);
+    }
+    // 整个链表为空时，释放头节点
+    free(L);
+}
+
+/**
+ * 单链表环的检测算法
+ * @param head 单链表
+ * @return 环的入口点
+ */
+LNode *findLoopStart(Linklist head) {
+    LNode *fast = head, *slow = head;
+    // 判断是否存在环
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) break;
+    }
+    if (fast == NULL || fast->next == NULL) return NULL;
+    LNode *p1 = head, *p2 = slow;
+    while (p1 != p2) {
+        p1 = p1->next;
+        p2 = p2->next;
+    }
+    // 返回环的入口点
+    return p1;
+}
+
+/**
+ * 查找链表中倒数第k个位置的结点并输出其data
+ * @param head 链表头指针
+ * @param k 序数
+ * @return
+ */
+int getLastKthNode(Linklist head, int k) {
+    printf("查找倒数第%d个结点的值", k);
+    LNode *p = head;
+    int length = 0;
+    while (p->next) {
+        p = p->next;
+        length++;
+    }
+    if (k > length) return 0;
+    else {
+        int step = length - k + 1;
+        p = head;
+        while (step) {
+            p = p->next;
+            step--;
+        }
+        printf("%d\n", p->data);
+        return 1;
+    }
+}
+
+/**
+ * 假定两个链表的公共后缀共享公共空间
+ * 该算法用以找到公共后缀的起始位置
+ * @param A
+ * @param B
+ * @return
+ */
+LNode *findCommonSuffixStart(Linklist A, Linklist B) {
+    int len1 = 0, len2 = 0;
+    LNode *p1 = A->next, *p2 = B->next;
+    // 计算链表A和链表B的长度
+    while (p1) {
+        len1++;
+        p1 = p1->next;
+    }
+    while (p2) {
+        len2++;
+        p2 = p2->next;
+    }
+    // 将链表A和链表B的内容分别复制到数组中
+    int A_copy[len1], B_copy[len2];
+    p1 = A->next;
+    p2 = B->next;
+    for (int i = 0; i < len1; i++){
+        A_copy[i] = p1->data;
+        p1 = p1->next;
+    }
+    for (int i = 0; i < len2; i++) {
+        B_copy[i] = p2->data;
+        p2 = p2->next;
+    }
+    // 计算最长后缀长度
+    int maxSuffixLength = len1 < len2 ? len1 : len2;
+    int suffixLength = 0;
+    for (int i = 0; i < maxSuffixLength; i++) {
+        if (A_copy[len1 - 1 - i] == B_copy[len2 - 1 - i]) suffixLength++;
+        else break;
+    }
+    // 找到公共首结点
+    p1 = A->next;
+    int preSuffixLength = len1 - suffixLength;
+    while (preSuffixLength--) p1 = p1->next;
+    return p1;
+}
