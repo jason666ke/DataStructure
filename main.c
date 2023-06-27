@@ -125,6 +125,9 @@ int main() {
         commonSuffixStart = commonSuffixStart->next;
     }
     printf("\n");
+
+    int a = 5 / 2;
+    printf("%d", a);
     return 0;
 }
 

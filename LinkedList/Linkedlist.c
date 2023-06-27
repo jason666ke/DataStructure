@@ -3,6 +3,7 @@
 //
 #include <malloc.h>
 #include <stdio.h>
+#include <memory.h>
 #include "Linkedlist.h"
 
 /**
@@ -371,6 +372,28 @@ int getLastKthNode(Linklist head, int k) {
 }
 
 /**
+ * 获取倒数第K个结点的优化方法
+ * 使用两个指针，P先移动k个位置，保持P和Q指针之间的距离K不变
+ * 两者同时后移，当P到达最后一个结点时，Q正好指向倒数第K个结点
+ * @param head
+ * @param k
+ * @return
+ */
+int searchKthNode(Linklist head, int k) {
+    LNode *p = head->next, *q = head->next;
+    int count = 0;
+    while (p) {
+        if (count < k) count++;
+        else q = q->next;
+        p = p->next;
+    }
+    if (count < k) return 0;
+    printf("%d", q->data);
+    return 1;
+}
+
+
+/**
  * 假定两个链表的公共后缀共享公共空间
  * 该算法用以找到公共后缀的起始位置
  * @param A
@@ -413,4 +436,139 @@ LNode *findCommonSuffixStart(Linklist A, Linklist B) {
     int preSuffixLength = len1 - suffixLength;
     while (preSuffixLength--) p1 = p1->next;
     return p1;
+}
+
+/**
+ * 获取链表长度
+ * @param head
+ * @return
+ */
+int length(Linklist head) {
+    int len = 0;
+    LNode *p = head;
+    while (p) {
+        len++;
+        p = p->next;
+    }
+    return len;
+}
+
+/**
+ * 优化后的寻找共同后缀的方法
+ * @param A
+ * @param B
+ * @return
+ */
+LNode *betterGetCommonSuffix(Linklist A, Linklist B) {
+    int len1 = length(A);
+    int len2 = length(B);
+    LNode *p;
+    LNode *q;
+    for (p = A; len1 > len2; len1--) p = p->next;
+    for (q = B; len2 > len1; len2--) q = q->next;
+    while (p && p != q) {
+        p = p->next;
+        q = q->next;
+    }
+    return p;
+}
+
+
+/**
+ * 对于链表中绝对值相等的结点
+ * 只保留出现的第一个结点，删除其余出现的绝对值相等的结点
+ * @param head
+ * @param length
+ */
+void deleteSameABS(Linklist head, int length) {
+    int exist[length];
+    memset(exist, 0, sizeof exist);
+    LNode *pre = head;
+    LNode *p = pre->next;
+    while (p) {
+        LNode *nextNode = p->next;
+        int abs = p->data > 0 ? p->data : -(p->data);
+        int isExist = 0;
+        for (int i = 0; i < length; i++) {
+            // 当前结点的绝对值已经出现过
+            if (exist[i] == abs) {
+                pre->next = p->next;
+                free(p);
+                isExist = 1;
+                break;
+            }
+            // 当前结点的绝对值还没出现过
+            if (exist[i] == 0) {
+                exist[i] = abs;
+                break;
+            }
+        }
+        if (!isExist) pre = p;
+        p = nextNode;
+    }
+}
+
+/**
+ * 优化后的删除重复绝对值函数
+ * 由于题目已知data的绝对值 <= n，因此可以利用辅助数组exist[n+1]帮助我们判断
+ * @param head
+ */
+void betterDeleteSameABS(Linklist head, int upBound) {
+    int exist[upBound + 1];
+    LNode *p = head->next;
+    LNode *pre = head;
+    while (p) {
+        int absData = p->data > 0 ? p->data : -(p->data);
+        LNode *nextNode = p->next;
+        if (exist[absData]) {
+            pre->next = p->next;
+            free(p);
+            p = nextNode;
+        } else {
+            exist[absData] = 1;
+            pre = p;
+            p = p->next;
+        }
+    }
+}
+
+/**
+ * 设当前链表为L = (a_1, a_2, ..., a_(n-2), a_(n-1), a_n)
+ * 想要在空间复杂度为O(1)的条件下
+ * 得到L = (a_1, a_n, a_2, a_(n-1), a_3, a_(n-2), ...)
+ * @param head
+ */
+void halfReverse(Linklist head) {
+    int length = 0;
+    LNode *p = head->next;
+    // 获取链表长度
+    while (p) {
+        length++;
+        p = p->next;
+    }
+    int halfLength = length / 2;
+    LNode *q = head->next;
+    // 找到链表中间结点
+    while (halfLength--) q = q->next;
+    Linklist secondHalfHead = (Linklist) malloc(sizeof (LNode));
+    // 头插法对第二段链表进行reverse
+    secondHalfHead->next = NULL;
+    while (q) {
+        LNode *nextNode = q->next;
+        q->next = secondHalfHead->next;
+        secondHalfHead->next = q;
+        q = nextNode;
+    }
+    // 指针归位对齐
+    p = head->next;
+    q = secondHalfHead->next;
+    // 按位依次插入
+    while (q) {
+        LNode *pNextNode = p->next;
+        LNode *qNextNode = q->next;
+        q->next = p->next;
+        p->next = q;
+        p = pNextNode;
+        q = qNextNode;
+    }
 }
