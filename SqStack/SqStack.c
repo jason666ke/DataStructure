@@ -174,5 +174,38 @@ int queueEmpty(SqStack *s1, SqStack *s2) {
     return (isEmpty(s1) && isEmpty(s2));
 }
 
+/**
+ * 用非递归的方式计算递归函数：
+ * P_n(x) = {
+ *      1. 1,   n = 0
+ *      2. 2x,  n = 1
+ *      3. 2 * x * P_{n-1}(x) - 2 * (n - 1) * p_{n - 2}(x)
+ * @param n
+ * @param x
+ * @return
+ */
+double p(int n, double x) {
+    struct stack{
+        int no;
+        double val;
+    }st[100];
+    int top = -1;
+    // 初值
+    double fv1 = 1, fv2 = 2 * x;
+    // 将P(n)从2到n依次入栈
+    for (int i = n; i >= 2; i--) {
+        st[++top].no = i;
+    }
+    // 计算栈顶元素对应的多项式值
+    // fv1表示前一个阶数的多项式值，即P_{n-2}, fv2表示当前阶数的多项式值，即P_{n-1}
+    while (top >= 0) {
+        st[top].val = 2 * x * fv2 - 2 * (st[top].no - 1) * fv1;
+        fv1 = fv2;
+        fv2 = st[top].val;
+        top--;
+    }
+    if (n == 0) return fv1;
+    return fv2;
+}
 
 

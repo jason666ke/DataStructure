@@ -4,6 +4,7 @@
 #include "LinkedList/Linkedlist.h"
 #include "LinkedList/DLinklist.h"
 #include "SqStack/InfixExp2PostfixExp.h"
+#include "Queue/SqQueue.h"
 
 int main() {
     // 初始化链表
@@ -142,6 +143,40 @@ int main() {
     int postfixLength = strlen(postExp);
     int result = calPostfixExp(postExp, postfixLength);
     printf("Result: %d\n", result);
+
+
+    // 渡口轮船管理算法
+    // 初始化货车等待队列
+    LinkQueue truckQueue;
+    initLinkQueue(&truckQueue);
+    enLinkQueue(&truckQueue, 2);
+    enLinkQueue(&truckQueue, 2);
+    enLinkQueue(&truckQueue, 2);
+
+    printLinkQueue(&truckQueue);
+
+    // 初始化客车等待队列
+    LinkQueue busQueue;
+    initLinkQueue(&busQueue);
+    enLinkQueue(&busQueue, 1);
+    enLinkQueue(&busQueue, 1);
+    enLinkQueue(&busQueue, 1);
+    enLinkQueue(&busQueue, 1);
+    enLinkQueue(&busQueue, 1);
+    enLinkQueue(&busQueue, 1);
+    enLinkQueue(&busQueue, 1);
+    enLinkQueue(&busQueue, 1);
+    printLinkQueue(&busQueue);
+
+    int passCars[10];
+
+    ferryManage(passCars, truckQueue, busQueue);
+
+    printf("Passenger cars on the ferry:\n");
+    for (int i = 0; i < 10; i++) {
+        printf("%d ", passCars[i]);
+    }
+    printf("\n");
 
     return 0;
 }

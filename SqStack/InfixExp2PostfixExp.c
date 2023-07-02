@@ -186,3 +186,53 @@ int calPostfixExp(char *postfixExp, int length) {
     pop(&stack, &result);
     return result;
 }
+
+/**
+ * 算术表达式的括号匹配算法
+ * @param expression
+ * @param length
+ * @return
+ */
+int matchBracket(char *expression, int length) {
+    CharStack stack;
+    initCharStack(&stack);
+
+    char top;
+    for (int i = 0; i < length; i++) {
+        if (expression[i] == '(' || expression[i] == '[' || expression[i] == '{') pushChar(&stack, expression[i]);
+        else {
+            // 数字跳过
+            if (expression[i] >= '0' && expression[i] <= '9') continue;
+            // 右括号多余
+            if (stackEmpty(&stack)) return 0;
+            popChar(&stack, &top);
+            // 不是数字和左括号，只能是右括号
+            if ((expression[i] == ')' && top != '(')
+            ||(expression[i] == ']' && top != '[')
+            ||(expression[i] == '}' && top != '{')) return 0;
+        }
+    }
+    return stackEmpty(&stack);
+}
+
+/**
+ * 车厢调度算法
+ * cabins[i] == 'H': 代表硬座车厢
+ * cabins[i] == 'S': 代表软座车厢
+ * 需要将所有的软座车厢掉换掉硬座车厢前
+ * @param cabins 车厢序列
+ * @param length 车厢序列长度
+ * @return
+ */
+void divideHAndS(char *cabins, int length) {
+    CharStack stack;
+    initCharStack(&stack);
+    int newIndex = 0;
+    for (int i = 0; i < length; i++) {
+        if (cabins[i] == 'H') pushChar(&stack, cabins[i]);
+        else {
+            cabins[newIndex++] = cabins[i];
+        }
+    }
+    while (!stackEmpty(&stack)) popChar(&stack, &cabins[newIndex++]);
+}
