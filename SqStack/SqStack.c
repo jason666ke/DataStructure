@@ -24,7 +24,7 @@ int isFull(SqStack *stack) {
 // 入栈
 int push(SqStack *stack, int value) {
     if (isFull(stack)) {
-        printf("Stack is full. Cannot push element.\n");
+        printf("Stack is full. Cannot pushChar element.\n");
         return 0;
     }
     stack->top++;
@@ -35,7 +35,7 @@ int push(SqStack *stack, int value) {
 // 出栈
 int pop(SqStack *stack, int *value) {
     if (isEmpty(stack)) {
-        printf("Stack is empty. Cannot pop element.\n");
+        printf("Stack is empty. Cannot popChar element.\n");
         return 0;
     }
     *value = stack->data[stack->top];
@@ -173,5 +173,6 @@ int queueEmpty(SqStack *s1, SqStack *s2) {
     // 两个栈全空时队列才为空
     return (isEmpty(s1) && isEmpty(s2));
 }
+
 
 

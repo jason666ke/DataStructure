@@ -7,6 +7,13 @@ typedef struct {
     int top;
 }SqStack;
 
+void initStack(SqStack *stack);
+int isEmpty(SqStack *stack);
+int isFull(SqStack *stack);
+int push(SqStack *stack, int value);
+int pop(SqStack *stack, int *value);
+int getTop(SqStack *stack, int *value);
+int modifyTop(SqStack *stack, int newValue);
 #ifndef UNTITLED_SQSTACK_H
 #define UNTITLED_SQSTACK_H
 

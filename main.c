@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <malloc.h>
+#include <string.h>
 #include "LinkedList/Linkedlist.h"
 #include "LinkedList/DLinklist.h"
+#include "SqStack/InfixExp2PostfixExp.h"
 
 int main() {
     // 初始化链表
@@ -127,7 +129,20 @@ int main() {
     printf("\n");
 
     int a = 5 / 2;
-    printf("%d", a);
+    printf("%d\n", a);
+
+    // 栈在表达式求值中的应用
+    char infixExp[] = "3+2-(5*9)+1";
+    char postExp[MaxSize];
+
+    int length = strlen(infixExp);  // Exclude the newline character
+    infix2Postfix(infixExp, postExp, length);
+    printf("Postfix expression: %s\n", postExp);
+
+    int postfixLength = strlen(postExp);
+    int result = calPostfixExp(postExp, postfixLength);
+    printf("Result: %d\n", result);
+
     return 0;
 }
 
