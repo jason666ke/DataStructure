@@ -4,6 +4,7 @@
 
 #include "SqStack.h"
 #include <stdio.h>
+#include "../LinkedList/Linkedlist.h"
 
 // 初始化栈
 void initStack(SqStack *stack) {
@@ -61,3 +62,116 @@ int modifyTop(SqStack *stack, int newValue) {
     stack->data[stack->top] = newValue;
     return 1;
 }
+
+/**
+ * 假定一个栈的操作序列被存在一个一维数组中，I代表入栈，O代表出栈
+ * 栈的初态和终态需为空
+ * 判断该操作序列是否合法，合法返回1，不合法返回0
+ * @param operations
+ * @param length
+ * @return
+ */
+int isValidOperations(const char *operations, int length) {
+    int elementInStack = 0;
+    for (int i = 0; i < length; i++) {
+        if (operations[i] == 'I') elementInStack++;
+        else elementInStack--;
+        if (elementInStack < 0) return 0;
+    }
+    if (elementInStack > 0) return 0;
+    return 1;
+}
+
+/**
+ * 判断一个链表是否为中心对称
+ * @param head
+ * @param length
+ * @return
+ */
+int isCentroSymmetric(Linklist head, int length) {
+    SqStack sqStack;
+    initStack(&sqStack);
+    LNode *p = head->next;
+    for (int i = 0; i < length / 2; i++) {
+        push(&sqStack, p->data);
+    }
+    if (length % 2 == 1) p = p->next;
+    while (p) {
+        int value;
+        pop(&sqStack, &value);
+        if (p->data == value) p = p->next;
+        else return 0;
+    }
+    return 1;
+}
+
+/**
+ * 用两个栈S1和S2模拟队列入队操作
+ * @param s1
+ * @param s2
+ * @param x
+ * @return
+ */
+int enQueue(SqStack *s1, SqStack *s2, int x) {
+    int temp;
+    // s1栈满且s2栈空，将所有数据从s1转移至s2
+    if (isFull(s1) && isEmpty(s2)) {
+        while (!isEmpty(s1)) {
+            pop(s1, &temp);
+            push(s2, temp);
+        }
+        return 0;
+    }
+    // s1满但s2不空，此时代表队满
+    else if (isFull(s1) && !isEmpty(s2)) {
+        return 0;
+    }
+    // 栈s1有空位，队列仍有容量，可装入x
+    else {
+        push(s1, x);
+        return 1;
+    }
+}
+
+/**
+ * 用两个栈S1和S2模拟队列出队操作
+ * @param s1
+ * @param s2
+ * @param x
+ * @return
+ */
+int deQueue(SqStack *s1, SqStack *s2, int *x) {
+    // S2不空，直接popS2中的元素
+    if (!isEmpty(s2)) {
+        pop(s2, x);
+        return 1;
+    }
+    // S2为空
+    else {
+        // 若S1不空，将S1中的元素全部放到S2中
+        int temp;
+        while (!isEmpty(s1)) {
+            pop(s1, &temp);
+            push(s2, temp);
+        }
+        // 将S2的栈顶元素出队
+        if (isEmpty(s2)) return 0;
+        else{
+            pop(s2, x);
+            return 1;
+        }
+    }
+}
+
+/**
+ * 用栈S1和S2模拟队列，判断队列是否为空
+ * @param s1
+ * @param s2
+ * @return
+ */
+int queueEmpty(SqStack *s1, SqStack *s2) {
+    // 两个栈全空时队列才为空
+    return (isEmpty(s1) && isEmpty(s2));
+}
+
+
