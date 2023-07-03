@@ -128,3 +128,79 @@ void testStringOperations() {
         printf("Sub String found at position: %d\n", result);
     }
 }
+
+/**
+ * 字符串匹配的KMP算法
+ * @param main 主串
+ * @param sub 子串
+ * @param next next数组
+ * @return 子串在主串中的起始位置，若未找到返回-1
+ */
+int index_KMP(SString *main, SString *sub, int next[]) {
+    int i = 1;  // 主串的当前位置
+    int j = 1;  // 子串的当前位置
+    while (i <= main->length && j <= sub->length) {
+        if (j == 0 || main->ch[i] == sub->ch[j]) {
+            // 当前字符匹配成功，继续比较下一个字符
+            i++;
+            j++;
+        } else {
+            // 当前字符匹配失败，根据next数组回溯
+            j = next[j];
+        }
+    }
+    if (j > sub->length) {
+        // 子串已匹配完毕，返回子串在主串中的起始位置
+        return i - sub->length;
+    } else {
+        // 子串未匹配完毕，未找到匹配
+        return -1;
+    }
+}
+
+/**
+ * 计算next数组
+ * @param sub 子串
+ * @param next next数组
+ */
+void computeNext(SString *sub, int next[]) {
+    int i = 1;  // 子串的当前位置
+    int j = 0;  // next数组的当前位置
+    next[1] = 0;  // next数组的第一个元素为0
+    while (i < sub->length) {
+        if (j == 0 || sub->ch[i] == sub->ch[j]) {
+            // 当前字符匹配成功，更新next数组并继续比较下一个字符
+            i++;
+            j++;
+            next[i] = j;
+        } else {
+            // 当前字符匹配失败，根据next数组回溯
+            j = next[j];
+        }
+    }
+}
+
+/**
+ * 计算nextVal数组
+ * @param sub 子串
+ * @param nextVal nextVal数组
+ */
+void computeNextVal(SString *sub, int nextVal[]) {
+    int i = 1;  // 子串的当前位置
+    int j = 0;  // nextVal数组的当前位置
+    nextVal[1] = 0;  // nextVal数组的第一个元素为0
+    while (i < sub->length) {
+        if (j == 0 || sub->ch[i] == sub->ch[j]) {
+            // 当前字符匹配成功，更新nextVal数组并继续比较下一个字符
+            i++;
+            j++;
+            if (sub->ch[i] != sub->ch[j])
+                nextVal[i] = j;
+            else
+                nextVal[i] = nextVal[j];
+        } else {
+            // 当前字符匹配失败，根据nextVal数组回溯
+            j = nextVal[j];
+        }
+    }
+}
