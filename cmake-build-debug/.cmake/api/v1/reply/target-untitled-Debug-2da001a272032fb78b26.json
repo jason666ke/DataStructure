@@ -61,7 +61,8 @@
 				5,
 				7,
 				9,
-				11
+				11,
+				12
 			]
 		}
 	],
@@ -104,7 +105,8 @@
 				5,
 				7,
 				9,
-				11
+				11,
+				12
 			]
 		},
 		{
@@ -115,7 +117,8 @@
 				4,
 				6,
 				8,
-				10
+				10,
+				13
 			]
 		}
 	],
@@ -187,6 +190,17 @@
 			"compileGroupIndex" : 0,
 			"path" : "SqStack/StackWithMin.c",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "SString/SString.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "SString/SString.h",
+			"sourceGroupIndex" : 1
 		}
 	],
 	"type" : "EXECUTABLE"

@@ -5,6 +5,7 @@
 #include "LinkedList/DLinklist.h"
 #include "SqStack/InfixExp2PostfixExp.h"
 #include "Queue/SqQueue.h"
+#include "SString/SString.h"
 
 int main() {
     // 初始化链表
@@ -177,6 +178,15 @@ int main() {
         printf("%d ", passCars[i]);
     }
     printf("\n");
+
+
+    // 测试字符串基本操作
+    printf("*********************************\n");
+    printf("              第四章.串            \n");
+    printf("**********************************\n");
+    testStringOperations();
+
+
 
     return 0;
 }
