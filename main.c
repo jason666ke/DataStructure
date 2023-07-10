@@ -6,6 +6,7 @@
 #include "SqStack/InfixExp2PostfixExp.h"
 #include "Queue/SqQueue.h"
 #include "SString/SString.h"
+#include "Tree/BiTNode.h"
 
 int main() {
     // 初始化链表
@@ -187,9 +188,20 @@ int main() {
     testStringOperations();
 
 
+    // 测试字符串基本操作
+    printf("*********************************\n");
+    printf("              第五章.树和二叉树            \n");
+    printf("**********************************\n");
+
+    int data[5] = {1, 2, 3, 4, 5};
+
+    BiTree tree = createCompleteBinaryTree(data, 5, 0);
+    find_x(tree, 5);
 
     return 0;
 }
 
+void nonRecursivePostOrder(BiTree root) {
 
+}
 

@@ -1,11 +1,13 @@
 # ninja log v5
-3	94	7100800385013168	CMakeFiles/untitled.dir/main.c.obj	54a23c13615c1476
+3	106	7106982585611744	CMakeFiles/untitled.dir/main.c.obj	54a23c13615c1476
 7	316	7099911111329067	CMakeFiles/untitled.dir/LinkedList/Linkedlist.c.obj	5c5cf5b0e2f7cb63
 7	115	7100080054173274	CMakeFiles/untitled.dir/Queue/SqQueue.c.obj	6c289ee2dd123c32
-86	231	7100801091517763	untitled.exe	67497027ddd7315b
+104	237	7106983205703621	untitled.exe	e959bcbcb888ea65
 3	762	7094710030086805	CMakeFiles/untitled.dir/LinkedList/DLinklist.c.obj	19f9678233719d24
 8	187	7100799290287106	CMakeFiles/untitled.dir/SqStack/SqStack.c.obj	7c51e90291697d9f
-0	109	7104224595491945	build.ninja	6eb022ceb9453626
+0	109	7106984626846632	build.ninja	6eb022ceb9453626
 8	260	7100076666927767	CMakeFiles/untitled.dir/SqStack/InfixExp2PostfixExp.c.obj	94b7505fe5e3bcb6
 2	64	7100799665017895	CMakeFiles/untitled.dir/SqStack/StackWithMin.c.obj	679437e6caccb386
-2	86	7100801090101031	CMakeFiles/untitled.dir/SString/SString.c.obj	a2657b57b3c952c4
+37	956	7106972674781797	CMakeFiles/untitled.dir/SString/SString.c.obj	a2657b57b3c952c4
+3	104	7106983204550834	CMakeFiles/untitled.dir/Tree/BiTNode.c.obj	a5ba3800bc1d5246
+8	115	7106982585642711	CMakeFiles/untitled.dir/Tree/LinkTreeQueue.c.obj	a4cd6af9dc92d106

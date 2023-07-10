@@ -2,6 +2,10 @@
 // Created by 86153 on 2023/7/7.
 //
 // 二叉树
+#ifndef UNTITLED_BITNODE_H
+#define UNTITLED_BITNODE_H
+#define MAXSIZE 100
+
 typedef struct BiTNode {
     int data;
     struct BiTNode *lchild, *rchild;
@@ -62,8 +66,9 @@ ThreadNode *prePostNode(ThreadNode *p);
 // 后序序列下的后继结点
 ThreadNode *nextPostNode(ThreadNode *p);
 
+BiTree createCompleteBinaryTree(int *arr, int size, int index);
 
-#ifndef UNTITLED_BITNODE_H
-#define UNTITLED_BITNODE_H
+int find_x(BiTree root, int x);
+
 
 #endif //UNTITLED_BITNODE_H
