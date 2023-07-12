@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include <malloc.h>
 #include <stdio.h>
+#include <math.h>
 #include "BiTNode.h"
 #include "LinkTreeQueue.h"
 #include "TreeStack.h"
@@ -583,4 +584,110 @@ int searchKinPreOrder(BiTree root, int k) {
     if (ch != '#') return ch;
     ch = searchKinPreOrder(root->rchild, k);
     if (ch != '#') return ch;
+}
+
+/**
+ * 递归算法找到p和q最近的公共祖先结点
+ * @param root
+ * @param p
+ * @param q
+ * @return
+ */
+BiTNode *ancestor(BiTree root, BiTNode *p, BiTNode *q) {
+    if (root == NULL || root == p || root == q) return root;
+    BiTNode *left = ancestor(root->lchild, p, q);
+    BiTNode *right = ancestor(root->rchild, p, q);
+    if (left == NULL && right == NULL) return root;
+    else if (left != NULL) return left;
+    else return right;
+}
+
+
+/**
+ * 将中序表达式树转化为中序表达式
+ * @param root
+ * @param depth
+ */
+void BTreeToExp(BiTree root, int depth) {
+    if (root == NULL) return;
+    if (root->lchild == NULL && root->rchild == NULL) printf("%s", root->data);
+    else {
+        if (depth > 1) printf("(");
+        BTreeToExp(root->lchild, depth + 1);
+        printf("%s", root->data);
+        BTreeToExp(root->rchild, depth + 1);
+        printf(")");
+    }
+}
+
+
+void B2Exp(BiTree root) {
+    BTreeToExp(root, 1);
+}
+
+typedef struct {
+    int data[MAXSIZE];  // 保存二叉树的节点值
+    int length;         // 实际占用的数组元素个数
+} SqBitTree;
+
+/**
+ * 判断一颗树是否为二叉排序树的递归算法
+ * @param root
+ * @param start
+ * @param length
+ * @return
+ */
+int judgeInOrderBST(int *root, int start, int length) {
+    if (root[start] == -1) return 1;
+    int lRootId = start * 2 + 1;    // 左子树根节点下标
+    int rRootId = start * 2 + 2;    // 右子树根节点下标
+//    int level = 1;
+//    for (;(2^level - 1) < length; level++); // 计算当前树高
+
+    int level = (int) log2(length + 1); // 计算当前树的层数
+
+//    int lLength_1 = (2 ^ (level - 1) - 1) / 2;   // 倒数第二层的满二叉树 / 2 - 1得到左子树的部分长度
+    int lLength_1 = (int) (pow(2, level - 1) - 1 / 2) ;
+    // 比较最后一层的节点数和节点数 / 2的大小，小的为左子树的大小
+    int lLength_2 = (2^(level - 1) - length) < (2^(level - 2)) ? (2^(level - 1) - length) : (2^(level - 2));
+    int lLength = lLength_1 + lLength_2;
+    // 右子树长度
+    int rLength = length - lLength - 1;
+
+    // 分别判断左右子树是否二叉排序树
+    int isLeftInOrderBST = judgeInOrderBST(root, lRootId, lLength);
+    int isRightInOrderBST = judgeInOrderBST(root, rRootId, rLength);
+
+    // 找到左子树最大值和右子树最小值
+    int leftMax = 0;
+    int rightMin = 10000;
+
+    for (int j = lRootId; j < lRootId + lLength; j++) {
+        if (root[j] > leftMax) leftMax = root[j];
+    }
+    for (int j = rRootId; j < rRootId + rLength; j++) {
+        if (root[j] < rightMin) rightMin = root[j];
+    }
+    if (leftMax < root[start] && root[start] < rightMin) {
+        return isLeftInOrderBST && isRightInOrderBST;
+    } else
+        return 0;
+}
+
+/**
+ * 判断是否为二叉排序树的第二种算法
+ * 中序遍历得到升序序列
+ * @param root
+ * @param k
+ * @param val
+ * @return
+ */
+int judgeBST_2(SqBitTree root, int k, int *val) { // 初始调用时k为0
+    if (k < root.length && root.data[k] != -1) {
+        if (!judgeBST_2(root, 2 * k + 1, val)) return 0;
+        if (root.data[k] < *val) return 0;
+        *val = root.data[k];
+        if (!judgeBST_2(root, 2 * k + 2, val)) return 0;
+    }
+    return 1;
 }

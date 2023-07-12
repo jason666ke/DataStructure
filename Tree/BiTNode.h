@@ -18,6 +18,7 @@ typedef struct ThreadNode {
     int ltag, rtag; // 左右线索标志
 }ThreadNode, *ThreadTree;
 
+
 // 访问结点函数
 void visit(BiTNode *p);
 
