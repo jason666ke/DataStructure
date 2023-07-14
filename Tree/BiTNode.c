@@ -739,3 +739,5 @@ void createBiTree(BiTree root, const int *e, const int *degree, int n) {
     }
     root = pointer[0];
 }
+
+
