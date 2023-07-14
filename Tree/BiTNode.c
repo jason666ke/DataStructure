@@ -691,3 +691,51 @@ int judgeBST_2(SqBitTree root, int k, int *val) { // 初始调用时k为0
     }
     return 1;
 }
+
+/**
+ * 统计用孩子兄弟表示法存储的森林的叶节点的个数
+ * @param forest
+ * @return
+ */
+int countLeafs(BiTree forest) {
+    if (!forest) return 0;
+    int left = countLeafs(forest->lchild);
+    int right = countLeafs(forest->rchild);
+    if (!forest->lchild) return left + right + 1;
+    else return left + right;
+}
+
+
+int height(BiTree root) {
+    if (!root) return 0;
+    int left = height(root->lchild) + 1;
+    int right = height(root->rchild);
+    return (left > right) ? left : right;
+}
+
+/**
+ * 利用层次遍历序列和结点度数构造孩子兄弟表示法的二叉树
+ * @param root
+ * @param e
+ * @param degree
+ * @param n
+ */
+void createBiTree(BiTree root, const int *e, const int *degree, int n) {
+    BiTNode *pointer[MaxSize];
+    for (int m = 0; m < n; m++) {
+        pointer[m]->data = e[m];
+        pointer[m]->lchild = pointer[m]->rchild = NULL;
+    }
+    int d = 0, k = 0;
+    for (int m = 0; m < n; m++) {
+        d = degree[m];
+        k++;    // k为子女序号
+        if (d) {
+            pointer[m]->lchild = pointer[k];
+            for (int j = 2; j < d; j++){
+                pointer[k - 1]->rchild = pointer[k];
+            }
+        }
+    }
+    root = pointer[0];
+}
