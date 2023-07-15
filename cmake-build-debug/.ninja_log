@@ -5,7 +5,7 @@
 104	237	7106983205703621	untitled.exe	e959bcbcb888ea65
 3	762	7094710030086805	CMakeFiles/untitled.dir/LinkedList/DLinklist.c.obj	19f9678233719d24
 8	187	7100799290287106	CMakeFiles/untitled.dir/SqStack/SqStack.c.obj	7c51e90291697d9f
-0	109	7110307416257878	build.ninja	6eb022ceb9453626
+0	109	7111108952278080	build.ninja	6eb022ceb9453626
 8	260	7100076666927767	CMakeFiles/untitled.dir/SqStack/InfixExp2PostfixExp.c.obj	94b7505fe5e3bcb6
 2	64	7100799665017895	CMakeFiles/untitled.dir/SqStack/StackWithMin.c.obj	679437e6caccb386
 37	956	7106972674781797	CMakeFiles/untitled.dir/SString/SString.c.obj	a2657b57b3c952c4

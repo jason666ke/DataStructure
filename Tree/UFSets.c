@@ -44,3 +44,5 @@ void betterUnion(int *s, int root1, int root2) {
     }
 }
 
+
+
