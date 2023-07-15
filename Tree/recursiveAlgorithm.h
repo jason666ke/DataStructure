@@ -26,4 +26,6 @@ void swapKid(BiTree root);
 void prePrint(BiTree root);
 
 void printDataLevel(BiTree root, int depth);
+
+void printPathsSum(BiTree root, int data, int path[], int pathLength, int sum);
 #endif //UNTITLED_RECURSIVEALGORITHM_H

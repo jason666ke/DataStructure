@@ -197,6 +197,30 @@ void printDataLevel(BiTree root, int depth) {
     printDataLevel(root->rchild, depth + 1);
 }
 
+void printPathsSum(BiTree root, int data, int path[], int pathLength, int sum) {
+    if (!root) {
+        return;
+    }
+
+    // 将当前节点的值添加到路径数组中
+    path[pathLength] = root->data;
+    pathLength++;
+    sum += root->data;
+
+    // 判断是否为叶节点且路径和等于给定整数
+    if (root->lchild == NULL && root->rchild == NULL && sum == data) {
+        // 打印路径
+        printf("Path: ");
+        for (int i = 0; i < pathLength; i++) {
+            printf("%d ", path[i]);
+        }
+        printf("\n");
+    }
+
+    // 递归遍历左子树和右子树
+    printPathsSum(root->lchild, data, path, pathLength, sum);
+    printPathsSum(root->rchild, data, path, pathLength, sum);
+}
 
 
 

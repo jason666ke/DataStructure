@@ -7,6 +7,7 @@
 #include "Queue/SqQueue.h"
 #include "SString/SString.h"
 #include "Tree/BiTNode.h"
+#include "Tree/recursiveAlgorithm.h"
 
 int main() {
     // 初始化链表
@@ -197,11 +198,13 @@ int main() {
 
     BiTree tree = createCompleteBinaryTree(data, 5, 0);
     find_x(tree, 5);
+    printf("\n");
+
+    int biTree[5] = {10, 5, 12, 4, 7};
+    BiTree biTree1 = createCompleteBinaryTree(biTree, 5, 0);
+    int path[5];
+    printPathsSum(biTree1, 22, path, 0, 0);
 
     return 0;
-}
-
-void nonRecursivePostOrder(BiTree root) {
-
 }
 
