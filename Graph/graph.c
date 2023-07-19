@@ -181,12 +181,12 @@ int isTreeDFS(MGraph g) {
  * @param path
  * @param pathLength
  */
-void findPath(MGraph g, int i, int j, int path[], int pathLength) {
+void findPath(MGraph g, int i, int j, int path[], int *pathLength) {
     visited[i] = 1;
-    path[pathLength] = i;
-    pathLength++;
+    path[*pathLength] = i;
+    (*pathLength)++;
     if (i == j) {
-        for (int k = 0; k < pathLength; k++) {
+        for (int k = 0; k < *pathLength; k++) {
             printf("%d ", path[k]);
         }
     }
@@ -196,6 +196,84 @@ void findPath(MGraph g, int i, int j, int path[], int pathLength) {
         }
     }
     visited[i] = 0;
-    pathLength--;   // 回溯时需要将路径长度-1，以便上一层函数可以正确表述路径
+    (*pathLength)--;   // 回溯时需要将路径长度-1，以便上一层函数可以正确表述路径
 }
 
+
+void BFS_Min_Distance(MGraph g, int u) {
+    int distance[g.vexNum];
+    int path[g.vexNum];
+    for (int i = 0; i < g.vexNum; i++) {
+        distance[i] = INT_MAX;
+        path[i] = -1;
+    }
+    // initial start point
+    distance[u] = 0;
+    path[u] = -1;
+    visited[u] = 1;
+
+    LinkQueue queue;
+    initLinkQueue(&queue);
+    enLinkQueue(&queue, u);
+    while (!isLinkQueueEmpty(&queue)) {
+        deLinkQueue(&queue, &u);
+        for (int i = firstNeighbor(g, u); i >= 0; i = nextNeighbor(g, u, i)) {
+            if (!visited[i]) {
+                distance[i] = distance[u] + 1;
+                path[i] = u;
+                visited[i] = 1;
+                enLinkQueue(&queue, i);
+            }
+        }
+    }
+}
+
+/**
+ * 迪杰斯特拉算法求单源最短路径
+ * @param g
+ * @param start
+ * @param final
+ * @param dist
+ * @param path
+ */
+void dijkstra(MGraph g, int start, int *final, int *dist, int *path) {
+    for (int i = 0; i < g.vexNum; i++) {
+        if (i == start) {
+            // initial start point
+            final[i] = 1;
+            dist[i] = 0;
+            path[i] = -1;
+        } else {
+            final[i] = 0;
+            dist[i] = g.edge[start][i];
+            path[i] = (dist[i] == INT_MAX) ? -1 : start;
+        }
+    }
+
+    int round = g.vexNum - 1;
+
+    for (int i = 0; i < round; i++) {
+        int min_index = -1;
+        int min_dist = INT_MAX;
+        // find min distance node
+        for (int j = 0; j < g.vexNum; j++) {
+            // update min node
+            if (final[j] == 0 && dist[j] < min_dist) {
+                min_dist = dist[j];
+                min_index = j;
+            }
+        }
+        final[min_index] = 1;
+        // check near min_index node and update distance
+        for (int j = 0; j < g.vexNum; j++) {
+            if (final[j] == 0) {
+                int new_dist = dist[min_index] + g.edge[min_index][j];
+                // update dist and path
+                if (new_dist < dist[j]) {
+                    dist[j] = new_dist;
+                    path[j] = min_index;
+                }
+            }
+        }
+    }
+}
