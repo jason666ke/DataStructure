@@ -277,3 +277,31 @@ void dijkstra(MGraph g, int start, int *final, int *dist, int *path) {
         }
     }
 }
+
+/**
+ * Floyd算法求最短路径问题
+ * @param g
+ * @param dist
+ * @param path
+ */
+void floyd(MGraph g, int **dist, int **path) {
+    // initial
+    int vexNum = g.vexNum;
+    for (int i = 0; i < vexNum; i++) {
+        for (int j = 0; j < vexNum; j++) {
+            dist[i][j] = g.edge[i][j];
+            path[i][j] = -1;
+        }
+    }
+
+    for (int k = 0; k < vexNum; k++) {
+        for (int i = 0; i < vexNum; i++) {
+            for (int j = 0; j <vexNum; j++) {
+                if (dist[i][j] > dist[i][k] + dist[k][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                    path[i][j] = k;
+                }
+            }
+        }
+    }
+}
