@@ -44,7 +44,7 @@ int getLevel(BiTree root, BiTNode *p) {
 }
 
 /**
- * 判断一颗二叉树是否二叉排序树
+ * 判断一颗二叉树是否平衡二叉树
  * @param root
  * @return
  */
