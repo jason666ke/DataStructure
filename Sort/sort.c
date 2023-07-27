@@ -110,4 +110,87 @@ int setPartition(int *a, int length) {
     return s2 - s1;
 }
 
+/**
+ * 实现带头结点链表的简单选择排序
+ * @param L
+ */
+void selectSort(Linklist L) {
+    LNode *p, *pre;       // p为工作指针
+    LNode *r = L;   // r为有序链表的尾指针
+    LNode *min, *min_pre;
+    while (r->next) {
+        min_pre = r;
+        min = r->next;
+        pre = r;
+        p = r->next;
+        while (p) { // 遍历找到最小的结点
+            if (p->data < min->data) {
+                min_pre = pre;
+                min = p;
+            }
+            pre = p;
+            p = p->next;
+        }
+        // 将min从原链表中取下
+        min_pre->next = min->next;
+        // 将min接到有序链表表尾
+        min->next = r->next;
+        r->next = min;
+        r = r->next;
+    }
+}
+
+/**
+ * 判断一个数组是否为小根堆
+ * @param a
+ * @param root
+ * @param len
+ * @return
+ */
+int isMinHeap(int *a, int root, int len) {
+    if (root > len) return 1;
+    int leftRoot = 2 * root;
+    int left = 0;
+    int rightRoot = 2 * root + 1;
+    int right = 0;
+    int isLeft = isMinHeap(a, leftRoot, len);
+    int isRight = isMinHeap(a, rightRoot, len);
+    if (isLeft && isRight) {    // 左右子树都是小根堆
+        if (leftRoot <= len) {
+            left = a[leftRoot];
+            if (a[root] > left) return 0;
+        }
+        if (rightRoot <= len) {
+            right = a[rightRoot];
+            if (a[root] > right) return 0;
+        }
+        return 1;
+    }
+    return 0;
+}
+
+/**
+ * 判断是否为小根堆的非递归写法
+ * @param a
+ * @param len
+ * @return
+ */
+int isMinHeapNonRecursive(int *a, int len) {
+    if (len % 2 == 0) { // 偶数，存在一个单分支结点
+        if (a[len / 2] > a[len]) return 0;
+        for (int i = len / 2 - 1; i >= 1; i--) {
+            // 判断所有双分支结点
+            if (a[i] > a[2 * i] || a[i] > a[2 * i + 1]) return 0;
+        }
+    } else {
+        for (int i = len / 2; i >= 1; i--) {
+            if (a[i] > a[2 * i] || a[i] > a[2 * i + 1]) return 0;
+        }
+    }
+    return 1;
+}
+
+
+
+
 
